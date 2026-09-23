@@ -30,7 +30,7 @@ jobs:
       - run: npm ci
       - run: npm run build
         env:
-          VITE_BASE: /hr_management-system/
+          VITE_BASE: /HR_management--system/
           VITE_API_URL: ${{ vars.VITE_API_URL }}
       # Pages has no server routing, so unknown paths fall back to the app
       - run: cp dist/index.html dist/404.html
