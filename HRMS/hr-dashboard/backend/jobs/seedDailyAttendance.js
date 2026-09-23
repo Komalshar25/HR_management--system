@@ -1,8 +1,5 @@
-// Populates "today's" attendance for a realistic slice of employees so KPIs like
-// "Present Today" and the attendance trend chart don't go quiet just because the
-// seeded historical dataset doesn't line up with whatever day it actually is.
-// Real clock-ins (via the Attendance page) always take priority — this only fills
-// in employees who don't already have a record for today.
+// Creates today's attendance for most employees so the "Present Today" numbers
+// aren't empty. Anyone who already has a record for today is left alone.
 
 const User = require("../models/User");
 const Attendance = require("../models/Attendance");

@@ -1,6 +1,5 @@
-// Gives every employee a standard onboarding document set (metadata only — there are no
-// real files behind these, since this is imported/seeded HR data, not actual uploads).
-// Re-runnable: only touches users who have no Document records yet.
+// Gives every employee a standard set of document records (no real files behind them).
+// Safe to re-run.
 
 require("dotenv").config();
 const mongoose = require("mongoose");

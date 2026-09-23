@@ -10,7 +10,7 @@ const api = axios.create({
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
 
-  // ❗ IMPORTANT: DO NOT attach token on login/register
+  // don't send a token on login/register
   if (token && !config.url.includes("/auth/")) {
     config.headers.Authorization = `Bearer ${token}`;
   }

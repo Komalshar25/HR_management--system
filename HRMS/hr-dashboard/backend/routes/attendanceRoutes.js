@@ -5,7 +5,6 @@ const attendanceController = require("../controllers/attendanceController");
 const auth = require("../middleware/authMiddleware");
 const restrictTo = require("../middleware/roleMiddleware");
 
-// USE THE REAL MIDDLEWARE — no fallbacks, no hacks
 router.post("/clock-in", auth.protect, attendanceController.clockIn);
 router.post("/clock-out", auth.protect, attendanceController.clockOut);
 router.get("/my", auth.protect, attendanceController.getMyAttendance);

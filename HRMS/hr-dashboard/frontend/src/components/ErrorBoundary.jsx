@@ -12,12 +12,10 @@ class ErrorBoundary extends React.Component {
 
   componentDidCatch(error, errorInfo) {
     console.error('Error caught in boundary:', error, errorInfo);
-    // You can also send to Sentry / LogRocket / your backend here
   }
 
   render() {
     if (this.state.hasError) {
-      // You can make this nicer (styled component, retry button, etc.)
       return (
         <div style={{ padding: '2rem', color: '#721c24' }}>
           <h2>Something went wrong.</h2>

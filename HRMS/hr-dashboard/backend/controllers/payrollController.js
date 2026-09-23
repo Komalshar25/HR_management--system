@@ -62,9 +62,7 @@ exports.getMyPayroll = async (req, res) => {
 
 exports.getPayrollSummary = async (req, res) => {
   try {
-    // Report on whichever month has the most payroll coverage, rather than assuming the
-    // calendar's current month has data (imported datasets are historical) or lazily
-    // generating history for every employee here (doesn't scale past a handful of users).
+    // use the month with the most payroll records; the imported data is historical
     const coverage = await Payroll.aggregate([
       { $group: { _id: "$month", count: { $sum: 1 } } },
       { $sort: { count: -1, _id: -1 } },

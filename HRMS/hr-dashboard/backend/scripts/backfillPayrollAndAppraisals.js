@@ -1,6 +1,5 @@
-// Fills payroll (Jan-Apr 2026, matching the imported dataset's real coverage window) and
-// a single performance appraisal for every employee who doesn't already have one from the
-// original CSV import. Re-runnable: only touches users missing the record type.
+// Adds payroll (Jan-Apr 2026) and one appraisal for every employee who has none.
+// Safe to re-run.
 
 require("dotenv").config();
 const mongoose = require("mongoose");

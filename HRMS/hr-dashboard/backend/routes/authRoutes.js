@@ -17,7 +17,7 @@ const authLimiter = rateLimit({
 router.post('/register', authLimiter, register);
 router.post('/login', authLimiter, login);
 
-// Simple protected test route (keeps your app happy)
+// who am I (quick token check)
 router.get('/me', protect, (req, res) => {
   res.json({
     id: req.user.id,

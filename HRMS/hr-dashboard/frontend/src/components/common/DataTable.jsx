@@ -14,11 +14,8 @@ import { useTheme } from "@mui/material/styles";
 import { TableSkeleton } from "./LoadingSkeleton";
 import EmptyState from "./EmptyState";
 
-/**
- * columns: [{ key, label, align?, render?(row) }]
- * On phones each row becomes a stacked card: the first column is the card title,
- * the remaining columns are label / value pairs.
- */
+// columns: [{ key, label, align?, render?(row) }]
+// On phones each row becomes a card: first column is the title, the rest are label/value pairs.
 const DataTable = ({
   columns,
   rows,

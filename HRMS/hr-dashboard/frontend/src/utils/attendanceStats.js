@@ -45,11 +45,8 @@ const recordsByDateKey = (records) => {
   return map;
 };
 
-/**
- * Classifies each elapsed weekday in the given month as Present / Late / Absent / Leave.
- * The denominator (totalWorkdays) is the full month's weekday count, so the ratio
- * reads as "attended so far out of this month's working days" — a pacing metric.
- */
+// Counts each elapsed weekday of the month as present, late, absent or on leave.
+// totalWorkdays is the whole month, so the ratios show progress through the month.
 export const computeMonthlySummary = (records, leaves, referenceDate = new Date(), joinedOn = null) => {
   const year = referenceDate.getFullYear();
   const month = referenceDate.getMonth();
@@ -138,9 +135,7 @@ const recordsWithinMonth = (records, year, month) =>
     return d.getFullYear() === year && d.getMonth() === month;
   });
 
-/**
- * Full month-over-month attendance stat bundle used by the Attendance page KPI row.
- */
+// This month vs last month numbers for the Attendance page KPI row.
 export const computeAttendanceStats = (records, referenceDate = new Date()) => {
   const year = referenceDate.getFullYear();
   const month = referenceDate.getMonth();
@@ -196,11 +191,8 @@ export const computeWeeklyHours = (records, weekOffset = 0, referenceDate = new 
   });
 };
 
-/**
- * Builds a day-by-day ledger for the last `limit` elapsed weekdays, combining
- * real attendance records with real approved-leave ranges so days with no
- * check-in correctly show as Absent rather than being silently skipped.
- */
+// Day-by-day list for the last `limit` weekdays. Days with no check-in show as
+// Absent (or Leave when an approved leave covers them).
 export const buildRecentLedger = (records, leaves, referenceDate = new Date(), limit = 10) => {
   const byDate = recordsByDateKey(records);
   const today = localDateKey(referenceDate);

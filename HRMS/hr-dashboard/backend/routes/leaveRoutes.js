@@ -37,7 +37,7 @@ router.get("/my", protect, async (req, res) => {
   }
 });
 
-// ✅ MANAGER ONLY: get all pending leaves
+// Manager: pending leave requests
 router.get("/pending", protect, async (req, res) => {
   try {
     const manager = await User.findById(req.user.id);
@@ -48,7 +48,7 @@ router.get("/pending", protect, async (req, res) => {
 
     const pendingLeaves = await Leave.find({
   status: "Pending",
-  user: { $ne: req.user.id }   // 🔥 exclude manager’s own requests
+  user: { $ne: req.user.id }   // leave out the manager's own requests
 })
 .populate("user", "name email employeeId department designation");
     res.json(pendingLeaves);
@@ -58,7 +58,7 @@ router.get("/pending", protect, async (req, res) => {
   }
 });
 
-// ✅ MANAGER ONLY: approve/reject leave
+// Manager: approve or reject
 router.patch("/:id/status", protect, async (req, res) => {
   try {
     const manager = await User.findById(req.user.id);
@@ -78,7 +78,7 @@ router.patch("/:id/status", protect, async (req, res) => {
       return res.status(404).json({ message: "Leave not found" });
     }
 
-    // 🔥 CRITICAL FIX — prevent self-approval
+    // nobody approves their own request
     if (leave.user.toString() === req.user.id) {
       return res.status(403).json({
         message: "You cannot approve your own leave request"
@@ -99,7 +99,7 @@ router.patch("/:id/status", protect, async (req, res) => {
   }
 });
 
-// ✅ MANAGER/HR/ADMIN: get all leave requests, optionally filtered by status
+// Manager/HR/Admin: all requests, optionally filtered by status
 router.get(
   "/all",
   protect,
@@ -122,7 +122,7 @@ router.get(
   }
 );
 
-// ✅ MANAGER/HR/ADMIN: get leave history for a specific employee
+// Manager/HR/Admin: one employee's leave history
 router.get(
   "/user/:id",
   protect,

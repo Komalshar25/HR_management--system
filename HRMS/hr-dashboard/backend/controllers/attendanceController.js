@@ -33,13 +33,13 @@ exports.clockIn = async (req, res) => {
       return res.status(400).json({ message: "Already clocked in" });
     }
 
-    // If last record is closed → RESUME SAME DAY
+    // second session on the same day
     const resumed = new Attendance({
       user: userId,
       date: latest.date,
       checkIn: new Date(),
       checkOut: null,
-      hoursWorked: latest.hoursWorked, // carry forward time
+      hoursWorked: latest.hoursWorked,
     });
 
     await resumed.save();

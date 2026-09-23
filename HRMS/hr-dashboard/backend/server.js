@@ -25,10 +25,10 @@ if (!process.env.JWT_SECRET) {
 
 const app = express();
 
-// Behind Render/Vercel proxies: needed so rate limiting sees the real client IP.
+// needed behind a proxy so the rate limiter sees the real client IP
 app.set('trust proxy', 1);
 
-// Comma-separated list of allowed origins, e.g. "https://app.example.com,https://admin.example.com"
+// CLIENT_URL can hold several origins, comma separated
 const allowedOrigins = (process.env.CLIENT_URL || 'http://localhost:5173')
   .split(',')
   .map((origin) => origin.trim());
@@ -42,9 +42,8 @@ app.use(express.json());
 
 connectDB();
 
-// Keep "today's" attendance populated automatically: once on boot (covers restarts
-// mid-day), then fresh every morning. Safe to run repeatedly — it only fills in
-// employees who don't already have a record for today, real clock-ins included.
+// fill in today's attendance on boot and every morning at 6
+// (anyone who already has a record is skipped, so repeating is safe)
 seedTodayAttendance().catch((err) => console.error('[seedDailyAttendance] startup run failed:', err.message));
 cron.schedule('0 6 * * *', () => {
   seedTodayAttendance().catch((err) => console.error('[seedDailyAttendance] scheduled run failed:', err.message));
@@ -57,7 +56,7 @@ app.get('/', (req, res) => {
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/leaves', leaveRoutes);
-app.use('/api/attendance', attendanceRoutes);   // <-- THIS WAS MISSING
+app.use('/api/attendance', attendanceRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/payroll', payrollRoutes);
